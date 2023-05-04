@@ -52,7 +52,7 @@ public class FileReader implements Runnable {
 
         System.out.println("FR CU Array size: " + StevensStudentSync.currentOktaUsers.size());
 
-        try ( BufferedReader br = new BufferedReader(new java.io.FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new java.io.FileReader(filePath))) {
             int nextLine = threadNumber;
             String line;
             int lineNumber = 0;
@@ -71,6 +71,7 @@ public class FileReader implements Runnable {
 
                     List headerList = Arrays.asList(headerArray);
 
+                    //TODO: need to trim values
                     fileHeaderArray.addAll(headerList);
                     lineNumber++;
                     continue;
@@ -84,6 +85,7 @@ public class FileReader implements Runnable {
                     //System.out.println("LineNumber: "+ lineNumber);
                     String[] record = line.split(",");
 
+                    //System.out.println("record length: " + record.length);
                     //check to see if record length matches heaer length
                     if (fileHeaderArray.size() > record.length + 1) {
                         //throw exception or log it?
@@ -91,20 +93,36 @@ public class FileReader implements Runnable {
                     }
 
                     ArrayList<String> recordArrayList = new ArrayList(Arrays.asList(record));
+                    //System.out.println("recordArrayList length: " + recordArrayList.size());
 
                     if (fileHeaderArray.size() == record.length + 1) {
                         recordArrayList.add("");
                     }
+                    //System.out.println("recordArrayList length2: " + recordArrayList.size());
+
                     HashMap<String, String> recordMap = new HashMap();
 
                     for (int i = 0; i < recordArrayList.size(); i++) {
                         //if (record[i].length() > 0) {
-                        //System.out.println("key: "+fileHeaderArray.get(i)+" value: "+ record[i]);
-                        recordMap.put(fileHeaderArray.get(i), record[i]);
+                        //System.out.println("key: " + fileHeaderArray.get(i) + " value: " + recordArrayList.get(i).replaceAll("\"", ""));
+                        //String keyString = fileHeaderArray.get(i).trim();
+                        //System.out.println(";" + keyString + ":");
+                        //char space = keyString.toCharArray()[0];
+                        //int code = (int) space;
+                        //System.out.println("char code: " + code);
+                        recordMap.put(removeUTF8BOM(fileHeaderArray.get(i)), recordArrayList.get(i).replaceAll("\"", ""));
                         //  }
+                        //System.out.println(Arrays.toString(recordMap.keySet().toArray()));
+//                        System.out.println(Arrays.toString(recordMap.entrySet().toArray()));
+//                        System.out.println("universalID from rm1: " + recordMap.get(fileHeaderArray.get(i)));
 
                     }
 
+                    //System.out.println(recordMap.size());
+                    //System.out.println("universalID from rm2: " + recordMap.get(fileHeaderArray.get(0)));
+                    //System.out.println(fileHeaderArray.get(0).equals("universalID"));
+                    //System.out.println(":"+fileHeaderArray.get(0)+":");
+                    //System.out.println(fileHeaderArray.get(0));
                     //get user from map by universalID
                     if (StevensStudentSync.currentOktaUsers.containsKey(recordMap.get("universalID"))) {
                         log.Log(Logger.DEBUG, "Found user: " + recordMap.get("universalID"));
@@ -127,7 +145,7 @@ public class FileReader implements Runnable {
 
                             } catch (Exception ex) {
                                 ex.printStackTrace();
-                                log.Log(Logger.NORMAL, "User modify failed: " + recordMap.get("universalID"));
+                                log.Log(Logger.NORMAL, "User modify failed: " + recordMap.get("universalID")+" : "+ ex.getMessage());
 
                             }
 
@@ -138,7 +156,8 @@ public class FileReader implements Runnable {
                         System.out.println("Did not find user: " + recordMap.get("universalID"));
                         //process add
                         //determine if add needed
-                        if (recordMap.get("email").equalsIgnoreCase("stevensacctmgt@gmail.com")) {
+                        // if (recordMap.get("email").equalsIgnoreCase("stevensacctmgt@gmail.com")) {
+                        if (true) {
 
                             //Do I also need to check for student affiliation
                             //build JSON
@@ -167,7 +186,9 @@ public class FileReader implements Runnable {
                             profile.put("middleName", recordMap.get("middleName"));
                             profile.put("academicLevel", recordMap.get("academicLevel"));
                             profile.put("classStanding", recordMap.get("classStanding"));
-                            profile.put("eduPersonAffiliation", recordMap.get("eduPersonAffiliation"));
+                            //profile.put("eduPersonAffiliation", recordMap.get("eduPersonAffiliation"));
+                            profile.put("strEduPersonAffiliation", recordMap.get("affiliation"));
+
                             profile.put("login", recordMap.get("universalID") + "@stevens.edu");
                             //translate to boolean?
 
@@ -188,7 +209,7 @@ public class FileReader implements Runnable {
                             addObject.put("profile", profile);
 
                             System.out.println(addObject.toString(2));
-                            
+
                             Client myClient = new Client(log, StevensStudentSync.props);
 
                             String url = StevensStudentSync.props.getProperty("oktaURL") + "/api/v1/users?activate=false";
@@ -277,5 +298,14 @@ public class FileReader implements Runnable {
         modObject.put("profile", profile);
 
         return modObject;
+    }
+
+    public static final String UTF8_BOM = "\uFEFF";
+
+    private static String removeUTF8BOM(String s) {
+        if (s.startsWith(UTF8_BOM)) {
+            s = s.substring(1);
+        }
+        return s;
     }
 }

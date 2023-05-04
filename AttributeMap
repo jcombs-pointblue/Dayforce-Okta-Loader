@@ -1,8 +1,11 @@
-email:email
+#Do not add universalID or any array attributes to this file. They are handled specially
+
+#email:email
 firstName:firstName
 lastName:lastName
-homeEmail:secondaryEmail
-middleName:initials
+homeEmail:secondEmail
+middleName:middleName
 academicLevel:academicLevel
 classStanding:classStanding
-eduPersonAffiliation:eduPersonAffiliation
+affiliation:strEduPersonAffiliation
+graduationDate:graduationDate

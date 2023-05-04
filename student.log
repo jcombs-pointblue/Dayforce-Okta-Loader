@@ -1,7 +1,3 @@
-New Execution at: Fri Mar 03 10:57:25 CST 2023
-Found user: 1212345
-User modify failed: 1212345
-Found user: 1212346
-Found user: 1212347
-Found user: 1212348
-User was not found but record does not have initial email: 1212349
+New Execution at: Wed May 03 14:27:51 CDT 2023
+Found user: 10478738
+User modify failed: 10478738 : Request Failed: rtnCode:403 respBody: {"errorCauses":[],"errorLink":"E0000023","errorCode":"E0000023","errorId":"oaeIm_spaNYQT2dAJFA6ibmwQ","errorSummary":"Operation failed because user profile is mastered under another system"}

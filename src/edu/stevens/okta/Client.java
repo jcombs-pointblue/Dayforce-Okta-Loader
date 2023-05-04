@@ -272,12 +272,12 @@ public class Client {
         } else {
             System.out.println("in else for exception");
             //throw new IOException("Request Failed: rtnCode:" + code + " respBody:" + OAuthUtils.convertStreamToString(response.getEntity().getContent()));
-            if (code == 400) {
+            if (code == 400 || code==403) {
                 InputStream inputStream = response.getEntity().getContent();
                 JSONObject jsonObject = new JSONObject(new JSONTokener(new InputStreamReader(inputStream, "UTF-8")));
                 throw new IOException("Request Failed: rtnCode:" + code + " respBody: " + jsonObject.toString());
             }
-            throw new IOException("Request Failed: rtnCode:" + code + " respBody:");
+            throw new IOException("Request Failed: rtnCode:" + code + " respBody:"+OAuthUtils.convertStreamToString(response.getEntity().getContent()));
 
         }
         //return null;
