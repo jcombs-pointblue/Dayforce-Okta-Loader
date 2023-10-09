@@ -183,6 +183,10 @@ public class JSONPointer {
         //}
     }
 
+    /**
+     *
+     * @param refTokens
+     */
     public JSONPointer(List<String> refTokens) {
         this.refTokens = new ArrayList<String>(refTokens);
     }

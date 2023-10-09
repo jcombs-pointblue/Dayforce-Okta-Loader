@@ -13,11 +13,25 @@ import com.pointbluetech.oktadriver.json.*;
 public class OktaAttribute
 {
 
+    /**
+     *
+     */
     public String name;
+
+    /**
+     *
+     */
     public boolean required;
+
+    /**
+     *
+     */
     public String type; //String,Int, String Array
    
-
+    /**
+     *
+     * @param oktaProperty
+     */
     public void setType(JSONObject oktaProperty)
     {
         String oktaType = oktaProperty.getString("type");

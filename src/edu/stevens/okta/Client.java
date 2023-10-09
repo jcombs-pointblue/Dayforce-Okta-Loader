@@ -59,21 +59,61 @@ import java.util.Iterator;
  */
 public class Client {
 
+    /**
+     *
+     */
     public String token;
+
+    /**
+     *
+     */
     public Properties config;
+
+    /**
+     *
+     */
     public CloseableHttpClient client;
+
+    /**
+     *
+     */
     public boolean trustAll = true;
+
+    /**
+     *
+     */
     public boolean useOAuth = false;
+
+    /**
+     *
+     */
     public String apiToken = "";
+
+    /**
+     *
+     */
     public String baseURL = "";
+
+    /**
+     *
+     */
     public String pageLink;
     //public Trace trace;
+
+    /**
+     *
+     */
     public boolean useProxy;
     //public String proxyHost;
     // public int proxyPort;
     Properties params;
     Logger trace;
 
+    /**
+     *
+     * @param trace
+     * @param params
+     */
     public Client(Logger trace, Properties params) {
         this.trace = trace;
         this.params = params;
@@ -81,6 +121,13 @@ public class Client {
         this.baseURL = params.getProperty("oktaURL");
     }
 
+    /**
+     *
+     * @param endpoint
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
     public JSONObject get(String endpoint) throws IOException, JSONException {
         //trace.trace("GET: " + endpoint, 3);
         if (useOAuth) {
@@ -146,6 +193,13 @@ public class Client {
         //return null;
     }
 
+    /**
+     *
+     * @param endpoint
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
     public JSONArray getArray(String endpoint) throws IOException, JSONException {
 
         System.out.println("GET: " + endpoint);
@@ -231,6 +285,16 @@ public class Client {
 
     }
      */
+
+    /**
+     *
+     * @param endpoint
+     * @param body
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
+
     public JSONObject post(String endpoint, JSONObject body) throws IOException, JSONException {
         if (useOAuth) {
             loadToken(false);
@@ -283,6 +347,14 @@ public class Client {
         //return null;
     }
 
+    /**
+     *
+     * @param endpoint
+     * @param body
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
     public JSONObject put(String endpoint, JSONObject body) throws IOException, JSONException {
         if (useOAuth) {
             loadToken(false);
@@ -326,6 +398,14 @@ public class Client {
         }
     }
 
+    /**
+     *
+     * @param endpoint
+     * @param body
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
     public JSONObject deleteWithBody(String endpoint, JSONObject body) throws IOException, JSONException {
         if (useOAuth) {
             loadToken(false);
@@ -381,6 +461,12 @@ public class Client {
 
     }
      */
+
+    /**
+     *
+     * @param forceNew
+     */
+
     public void loadToken(boolean forceNew) {
         if (forceNew || (token == null)) {
             //Load the properties file
@@ -414,6 +500,10 @@ public class Client {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void loadUsers() throws IOException {
 
         //does not include deactivated
@@ -434,6 +524,9 @@ public class Client {
 
             while (userIter.hasNext()) {
                 JSONObject user = (JSONObject) userIter.next();
+                
+                //https://siot-admin.okta.com/admin/user/demasteruser/00uy84yd1EubJ7cBY696?reset=no
+                
 
                 JSONObject profile = (JSONObject) user.get("profile");
                 String cwid = null;
@@ -444,8 +537,15 @@ public class Client {
                     //System.out.println("No CWID Found: " + profile.getString("login"));
                     continue;
                 }
+                
 
                 StevensStudentSync.currentOktaUsers.put(cwid, user);
+                
+                                //https://siot-admin.okta.com/admin/user/demasteruser/00uy84yd1EubJ7cBY696?reset=no
+                                // "type": {
+ //       "id": "otycd8jni7E2gvlhN695"
+ //   }
+           
 
                 //System.out.println(login);
             }
@@ -454,6 +554,10 @@ public class Client {
         // StevensStudentSync.currentOktaUsers.put("456", new JSONObject());
     }
 
+    /**
+     *
+     * @return
+     */
     public CloseableHttpClient getHttpClient() {
         //CloseableHttpClient httpClient = null;
 

@@ -28,16 +28,32 @@ public class OktaSchema
     //Okta attrs that are not used should be "unused" in the map.
     //map  <OKTA ATTR>|<FILE HEADER>|<ATTR TYPE, STRING,DATE,INT>  MUST BE IN FILE column ORDER
 
+    /**
+     *
+     */
+
     public JSONObject schemaJSON;
+
+    /**
+     *
+     */
     public HashMap<String, OktaAttribute> oktaAttributes = new HashMap();
     private String passFlow;
 
+    /**
+     *
+     * @param schemaJSON
+     */
     public OktaSchema(JSONObject schemaJSON)
     {
         this.schemaJSON = schemaJSON;
         loadSchema();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isOktaSchemaValid()
     {
         return oktaAttributes.size()>3;
@@ -328,7 +344,10 @@ public class OktaSchema
 
     }
 
-
+    /**
+     *
+     * @return
+     */
     protected String getPWString()
     {
         String SALTCHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -344,6 +363,10 @@ public class OktaSchema
 
     }
 
+    /**
+     *
+     * @param passFlow
+     */
     public void setPasswordFlow(String passFlow)
     {
         this.passFlow = passFlow;

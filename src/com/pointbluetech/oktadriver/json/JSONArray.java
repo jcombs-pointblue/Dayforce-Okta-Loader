@@ -244,6 +244,10 @@ public class JSONArray implements Iterable<Object> {
     	this.myArrayList = new ArrayList<Object>(initialCapacity);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Iterator<Object> iterator() {
         return this.myArrayList.iterator();

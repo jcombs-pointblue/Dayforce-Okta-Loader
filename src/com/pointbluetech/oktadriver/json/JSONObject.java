@@ -1974,6 +1974,13 @@ public class JSONObject {
         }
     }
 
+    /**
+     *
+     * @param string
+     * @param w
+     * @return
+     * @throws IOException
+     */
     public static Writer quote(String string, Writer w) throws IOException {
         if (string == null || string.isEmpty()) {
             w.write("\"\"");

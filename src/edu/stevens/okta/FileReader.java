@@ -32,13 +32,40 @@ import java.util.Iterator;
  */
 public class FileReader implements Runnable {
 
+    /**
+     *
+     */
     public String filePath;
+
+    /**
+     *
+     */
     public int threadNumber;
+
+    /**
+     *
+     */
     public int threadCount;
+
+    /**
+     *
+     */
     public long backoffMs;
+
+    /**
+     *
+     */
     public Logger log;
     private ArrayList<String> fileHeaderArray = new ArrayList();
 
+    /**
+     *
+     * @param filePath
+     * @param threadNumber
+     * @param threadCount
+     * @param backoffMs
+     * @param log
+     */
     public FileReader(String filePath, int threadNumber, int threadCount, long backoffMs, Logger log) {
         this.filePath = filePath;
         this.threadNumber = threadNumber;
@@ -48,6 +75,9 @@ public class FileReader implements Runnable {
 
     }
 
+    /**
+     *
+     */
     public void run() {
 
         System.out.println("FR CU Array size: " + StevensStudentSync.currentOktaUsers.size());
@@ -300,6 +330,9 @@ public class FileReader implements Runnable {
         return modObject;
     }
 
+    /**
+     *
+     */
     public static final String UTF8_BOM = "\uFEFF";
 
     private static String removeUTF8BOM(String s) {

@@ -33,12 +33,25 @@ public class StevensStudentSync {
     //
     //public static OktaSchema oktaSchema;
     //public static HashMap<String, String> attributeMap = new HashMap(); //read from file <file header>:<okta attr key>
+
+    /**
+     *
+     */
     public static Properties props = new Properties();
+
+    /**
+     *
+     */
     public static ConcurrentHashMap<String, JSONObject> currentOktaUsers = new ConcurrentHashMap(100000);
+
+    /**
+     *
+     */
     public static Properties attrProps = new Properties();
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
 

@@ -21,6 +21,9 @@ public class UserRequest extends JSONObject
 
     JSONObject profile = new JSONObject();
 
+    /**
+     *
+     */
     public UserRequest()
     {
 
@@ -28,6 +31,10 @@ public class UserRequest extends JSONObject
 
     }
 
+    /**
+     *
+     * @param oktatUser
+     */
     public UserRequest(JSONObject oktatUser)
     {
 
@@ -35,6 +42,11 @@ public class UserRequest extends JSONObject
 
     }
 
+    /**
+     *
+     * @param name
+     * @param value
+     */
     public void removeArrayValue(String name, Object value)
     {
         JSONArray theValues = this.getJSONObject("profile").optJSONArray(name);
@@ -54,6 +66,11 @@ public class UserRequest extends JSONObject
         profile.put(name, theValues);
     }
 
+    /**
+     *
+     * @param oktaAttr
+     * @param value
+     */
     public void addValue(OktaAttribute oktaAttr, String value)
     {
         System.out.println("Adding value: " + value + " to attr: " + oktaAttr.name);
@@ -75,6 +92,11 @@ public class UserRequest extends JSONObject
         }
     }
 
+    /**
+     *
+     * @param oktaAttr
+     * @param value
+     */
     public void removeValue(OktaAttribute oktaAttr, String value)
     {
         if (oktaAttr.type.equals("number") || oktaAttr.type.equals("string"))
@@ -90,6 +112,11 @@ public class UserRequest extends JSONObject
 
     }
 
+    /**
+     *
+     * @param name
+     * @param value
+     */
     public void addStringArrayAttributeValue(String name, String value)
     {
                 System.out.println("Adding value2: " + value + " to attr: " + name);
@@ -98,12 +125,22 @@ public class UserRequest extends JSONObject
 
     }
 
+    /**
+     *
+     * @param name
+     * @param value
+     */
     public void addNumericArrayAttributeValue(String name, String value)
     {
         this.getJSONObject("profile").append(name, Integer.parseInt(value));
 
     }
 
+    /**
+     *
+     * @param name
+     * @param value
+     */
     public void setStringAttributeValue(String name, String value)
     {
         //System.out.println("Adding value2: " + value + " to attr: " + name);
@@ -115,18 +152,31 @@ public class UserRequest extends JSONObject
 
     }
 
+    /**
+     *
+     * @param attrName
+     */
     public void removeAllValues(String attrName)
     {
         this.getJSONObject("profile").remove(attrName);
 
     }
 
+    /**
+     *
+     * @param name
+     * @param value
+     */
     public void setNumericAttributeValue(String name, String value)
     {
         this.getJSONObject("profile").put(name, Integer.parseInt(value));
 
     }
 
+    /**
+     *
+     * @param pwValue
+     */
     public void addPassword(String pwValue)
     {
         JSONObject credentials = new JSONObject();

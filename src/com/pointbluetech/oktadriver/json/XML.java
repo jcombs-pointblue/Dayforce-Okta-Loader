@@ -74,6 +74,9 @@ public class XML {
      */
     public static final String NULL_ATTR = "xsi:nil";
 
+    /**
+     *
+     */
     public static final String TYPE_ATTR = "xsi:type";
 
     /**

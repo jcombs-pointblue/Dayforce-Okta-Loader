@@ -19,6 +19,12 @@ public class Logger {
     private FileWriter log;
     int logLevel;
 
+    /**
+     *
+     * @param logLevel
+     * @param logPath
+     * @throws IOException
+     */
     public Logger(int logLevel, String logPath) throws IOException {
         this.logLevel = logLevel;
         this.log = new FileWriter(logPath);
@@ -27,9 +33,21 @@ public class Logger {
 
     }
 
+    /**
+     *
+     */
     public static int DEBUG = 3;
+
+    /**
+     *
+     */
     public static int NORMAL = 1;
 
+    /**
+     *
+     * @param level
+     * @param logMsg
+     */
     public void Log(int level, String logMsg) {
         
         System.out.println(logMsg);
@@ -45,19 +63,39 @@ public class Logger {
 
     }
 
+    /**
+     *
+     * @param i
+     * @param string
+     */
     public void trace(int i, String string) {
         System.out.println(string);
     }
 
+    /**
+     *
+     * @param i
+     * @param i1
+     * @param string
+     */
     public void trace(int i, int i1, String string) {
         System.out.println(string);
 
     }
 
+    /**
+     *
+     * @param string
+     * @param i
+     */
     public void trace(String string, int i) {
         System.out.println(string);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLevel() {
         return 3;
     }

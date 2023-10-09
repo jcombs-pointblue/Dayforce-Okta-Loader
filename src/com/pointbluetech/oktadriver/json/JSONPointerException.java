@@ -34,10 +34,19 @@ SOFTWARE.
 public class JSONPointerException extends JSONException {
     private static final long serialVersionUID = 8872944667561856751L;
 
+    /**
+     *
+     * @param message
+     */
     public JSONPointerException(String message) {
         super(message);
     }
 
+    /**
+     *
+     * @param message
+     * @param cause
+     */
     public JSONPointerException(String message, Throwable cause) {
         super(message, cause);
     }
