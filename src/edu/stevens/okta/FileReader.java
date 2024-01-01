@@ -156,6 +156,8 @@ public class FileReader implements Runnable {
                     //get user from map by universalID
                     if (StevensStudentSync.currentOktaUsers.containsKey(recordMap.get("universalID"))) {
                         log.Log(Logger.DEBUG, "Found user: " + recordMap.get("universalID"));
+                        String oktaID = StevensStudentSync.currentOktaUsers.get(recordMap.get("universalID")).getString("id");
+
                         //process modify
                         //determine if modify needed
                         JSONObject modObj = getUpdateObj(recordMap);
@@ -164,7 +166,7 @@ public class FileReader implements Runnable {
                         } else {
                             //modify it
                             Client myClient = new Client(log, StevensStudentSync.props);
-                            String oktaID = StevensStudentSync.currentOktaUsers.get(recordMap.get("universalID")).getString("id");
+                            // String oktaID = StevensStudentSync.currentOktaUsers.get(recordMap.get("universalID")).getString("id");
 
                             String url = StevensStudentSync.props.getProperty("oktaURL") + "/api/v1/users/" + oktaID;
 
@@ -175,11 +177,24 @@ public class FileReader implements Runnable {
 
                             } catch (Exception ex) {
                                 ex.printStackTrace();
-                                log.Log(Logger.NORMAL, "User modify failed: " + recordMap.get("universalID")+" : "+ ex.getMessage());
+                                log.Log(Logger.NORMAL, "User modify failed: " + recordMap.get("universalID") + " : " + ex.getMessage());
 
                             }
 
                         }
+
+                        //Deactivate former students
+//                        String status = StevensStudentSync.currentOktaUsers.get(recordMap.get("universalID")).getString("status");
+//
+//                        if (status.equals("ACTIVE") || status.equals("STAGED")) {
+//
+//                            try {
+//                                deactivateUser(oktaID);
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                                log.Log(Logger.NORMAL, "User deactivation failed: " + oktaID);
+//                            }
+//                        }
 
                         //log it
                     } else {
@@ -187,9 +202,11 @@ public class FileReader implements Runnable {
                         //process add
                         //determine if add needed
                         // if (recordMap.get("email").equalsIgnoreCase("stevensacctmgt@gmail.com")) {
-                        if (true) {
 
-                            //Do I also need to check for student affiliation
+                        String affiliation = recordMap.get("affiliation");
+                        //Only create student records. Alum and former-student not created.
+                        if (affiliation.equals("student")) {
+
                             //build JSON
                             JSONObject profile = new JSONObject();
                             //map from record names to Okta names
@@ -282,6 +299,14 @@ public class FileReader implements Runnable {
 
     }
 
+    private void deactivateUser(String oktaID) throws Exception {
+        Client myClient = new Client(log, StevensStudentSync.props);
+        String url = StevensStudentSync.props.getProperty("oktaURL") + "/api/v1/users/" + oktaID + "/lifecycle/deactivate";
+
+        myClient.post(url, new JSONObject());
+
+    }
+
     private JSONObject getUser() {
         JSONObject user = new JSONObject();
 
@@ -313,10 +338,26 @@ public class FileReader implements Runnable {
             String key = recKeysIter.next();
             if (StevensStudentSync.attrProps.get(key) != null) //mapping exists
             {
+                if (key.equals("graduationDate")) {
+                    String currentGDValue = oktaUser.getJSONObject("profile").optString(StevensStudentSync.attrProps.getProperty(key), "");
+                    String newGDValue = recordMap.get(key);
+                    String txformGDValue = "";
+                    //transform YYYY-MM-DD to MM-DD-YYYY
+                    if (!newGDValue.equals("")) {
+                        String[] dateArray = newGDValue.split("-");
+                        txformGDValue = dateArray[1] + "-" + dateArray[2] + "-" + dateArray[0];
+                    }
 
-                if (!oktaUser.getJSONObject("profile").optString(StevensStudentSync.attrProps.getProperty(key), "").equals(recordMap.get(key))) {
-                    profile.put((String) StevensStudentSync.attrProps.get(key), recordMap.get(key));
+                    if (!currentGDValue.equals(txformGDValue)) {
+                        profile.put((String) StevensStudentSync.attrProps.get(key), txformGDValue);
+                    }
 
+                } else {
+
+                    if (!oktaUser.getJSONObject("profile").optString(StevensStudentSync.attrProps.getProperty(key), "").equals(recordMap.get(key))) {
+                        profile.put((String) StevensStudentSync.attrProps.get(key), recordMap.get(key));
+
+                    }
                 }
 
             }

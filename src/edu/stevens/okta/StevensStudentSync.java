@@ -14,6 +14,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -97,9 +99,8 @@ public class StevensStudentSync {
 
         //oktaSchema = new OktaSchema(oktaSchemaJSON);
         
-        
-        
-        Logger log = new Logger(Logger.DEBUG,"student.log");
+        String timeStamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());        
+        Logger log = new Logger(Logger.DEBUG, props.getProperty("logPath") + timeStamp+"-"+"student.log");
         
         readCurrentOktaData(log, props);
         
