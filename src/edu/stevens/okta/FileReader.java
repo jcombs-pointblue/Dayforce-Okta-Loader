@@ -205,7 +205,7 @@ public class FileReader implements Runnable {
 
                         String affiliation = recordMap.get("affiliation");
                         //Only create student records. Alum and former-student not created.
-                        if (affiliation.equals("student")) {
+                        if (affiliation.equals("student") || affiliation.equals("pre-college")) {
 
                             //build JSON
                             JSONObject profile = new JSONObject();
@@ -275,7 +275,7 @@ public class FileReader implements Runnable {
                             ///api/v1/users?activate=false  may need to use main tenant URL
                         } else {
                             //log user was not found but did not have the new user email
-                            log.Log(Logger.NORMAL, "User was not found but record does not have initial email: " + recordMap.get("universalID"));
+                            log.Log(Logger.NORMAL, "User was not found but record does not have student affiliation: " + recordMap.get("universalID"));
 
                         }
 

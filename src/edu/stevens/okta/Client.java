@@ -117,7 +117,8 @@ public class Client {
     public Client(Logger trace, Properties params) {
         this.trace = trace;
         this.params = params;
-        this.apiToken = params.getProperty("token");
+        
+        this.apiToken = CredentialUtility.decode(params.getProperty("token"));
         this.baseURL = params.getProperty("oktaURL");
     }
 
