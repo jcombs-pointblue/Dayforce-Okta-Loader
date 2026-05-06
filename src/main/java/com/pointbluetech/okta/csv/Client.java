@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.stevens.okta;
+package com.pointbluetech.okta.csv;
 
 import com.pointbluetech.oauth.OAuth2Details;
 import com.pointbluetech.oauth.OAuthConstants;
@@ -15,29 +15,19 @@ import java.util.Properties;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import java.util.HashMap;
 
 import java.net.URI;
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.HttpHost;
 import org.apache.http.Header;
 import org.apache.http.conn.routing.HttpRoutePlanner;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.client.HttpClient;
+
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 //import org.json.pointblue.parser.JSONParser;
@@ -49,8 +39,6 @@ import com.pointbluetech.oktadriver.json.JSONException;
 import com.pointbluetech.oktadriver.json.JSONArray;
 //import com.novell.nds.dirxml.driver.Trace;
 //import com.pointbluetech.nds.dirxml.driver.okta.CommonImpl;
-import java.util.Properties;
-import edu.stevens.okta.Logger;
 import java.util.Iterator;
 
 /**
@@ -530,17 +518,17 @@ public class Client {
                 
 
                 JSONObject profile = (JSONObject) user.get("profile");
-                String cwid = null;
+                String matchKey = CsvSync.props.getProperty("matchKey", "universalID");
+                String matchValue = null;
                 try {
-                    cwid = profile.getString("universalID");
+                    matchValue = profile.getString(matchKey);
 
                 } catch (JSONException jse) {
-                    //System.out.println("No CWID Found: " + profile.getString("login"));
                     continue;
                 }
-                
 
-                StevensStudentSync.currentOktaUsers.put(cwid, user);
+
+                CsvSync.currentOktaUsers.put(matchValue, user);
                 
                                 //https://siot-admin.okta.com/admin/user/demasteruser/00uy84yd1EubJ7cBY696?reset=no
                                 // "type": {
@@ -552,7 +540,7 @@ public class Client {
             }
         }
 
-        // StevensStudentSync.currentOktaUsers.put("456", new JSONObject());
+        // CsvSync.currentOktaUsers.put("456", new JSONObject());
     }
 
     /**

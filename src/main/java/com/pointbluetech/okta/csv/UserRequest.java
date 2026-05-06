@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.stevens.okta;
+package com.pointbluetech.okta.csv;
 
-import com.pointbluetech.oktadriver.json.JSONException;
 import com.pointbluetech.oktadriver.json.JSONObject;
 import com.pointbluetech.oktadriver.json.JSONArray;
 //import com.pointbluetech.nds.dirxml.driver.okta.OktaAttribute;
 
-import java.util.Collection;
 
 /**
  *

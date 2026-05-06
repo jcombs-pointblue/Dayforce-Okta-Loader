@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.stevens.okta;
+package com.pointbluetech.okta.csv;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -23,7 +23,8 @@ public class CredentialUtility
 
     private static SecretKeySpec secretKey;
     private static byte[] key;
-    private static String secretString = "ljhllqevwdfv886734gr55bggSSvej3??hsyy4fSSHGFH234ijf";
+    //update for each deployment
+    private static String secretString = "ljhllqevwdfv886734gr5werfr5bggSSvej3??hsyy4fSSHGFH234ijf";
 
     public static void main(String[] args)
     {     
@@ -82,9 +83,9 @@ public class CredentialUtility
         try
         {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+            return new String(cipher.doFinal(Base64.getMimeDecoder().decode(strToDecrypt)), "UTF-8");
         }
         catch (Exception e)
         {

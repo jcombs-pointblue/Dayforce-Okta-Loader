@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.stevens.okta;
+package com.pointbluetech.okta.csv;
 
 import java.io.FileWriter;
 import java.io.File;

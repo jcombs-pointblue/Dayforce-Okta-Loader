@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package edu.stevens.okta;
+package com.pointbluetech.okta.csv;
 
 import com.pointbluetech.oktadriver.json.JSONObject;
-import java.util.HashMap;
+
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
  *
  * @author jcombs
  */
-public class StevensStudentSync {
+public class CsvSync {
 
     //read config
     //read schema map
@@ -57,7 +57,7 @@ public class StevensStudentSync {
      */
     public static void main(String[] args) throws Exception {
 
-        try ( InputStream input = new FileInputStream("studentSynch.properties")) 
+        try ( InputStream input = new FileInputStream("csvSync.properties"))
         {
 
             // load a properties file
@@ -100,7 +100,7 @@ public class StevensStudentSync {
         //oktaSchema = new OktaSchema(oktaSchemaJSON);
         
         String timeStamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());        
-        Logger log = new Logger(Logger.DEBUG, props.getProperty("logPath") + timeStamp+"-"+"student.log");
+        Logger log = new Logger(Logger.DEBUG, props.getProperty("logPath") + timeStamp+"-"+"csvLoader.log");
         
         readCurrentOktaData(log, props);
         
