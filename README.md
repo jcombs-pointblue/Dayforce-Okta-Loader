@@ -39,7 +39,7 @@ The `token` value in `csvSync.properties` must be the encrypted form
 produced by `CredentialUtility`. To encrypt a fresh Okta SSWS token:
 
 ```sh
-java -cp target/DayforceOktLoader.jar \
+java -cp target/DayforceOktaLoader.jar \
   com.pointbluetech.okta.csv.CredentialUtility 'paste-the-plain-token-here'
 ```
 
