@@ -43,6 +43,34 @@ java -jar target/DayforceOktaLoader.jar
 Logs are written to the directory configured by `logPath` with a
 timestamped filename (`YYYYMMDD-HHmmss-csvLoader.log`).
 
+## Creating the Okta API token
+
+The loader authenticates with an Okta **SSWS API token** (sent as
+`Authorization: SSWS <token>`).
+
+1. Sign in to the Okta admin console (`https://<tenant>-admin.okta.com`)
+   as a Super Admin or an admin with API token rights.
+2. **Security → API** (left nav).
+3. **Tokens** tab → **Create token**.
+4. Give it a descriptive name (e.g. `dayforce-loader-prod`) and click
+   **Create token**.
+5. **Copy the token immediately** — Okta only displays it once.
+
+Notes:
+
+- The token inherits the permissions of the admin who created it. This
+  loader needs at least **User Admin** rights (read users, create and
+  modify profile fields). Super Admin works but is more privilege than
+  required.
+- Tokens expire after **30 days of inactivity**. Any successful call
+  resets the counter, so a regularly scheduled job effectively keeps the
+  token alive.
+- The token is tied to the admin's account — if the admin is
+  deactivated, the token dies with it. Use a dedicated service account
+  if possible.
+- If your tenant uses API Access Management with network zones, restrict
+  the token to your job runner's egress IPs.
+
 ## Encrypting the API token
 
 The `token` value in `csvSync.properties` must be the encrypted form
