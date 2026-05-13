@@ -61,6 +61,22 @@ Copy the resulting Base64 string into the `token =` line of
 > deployment cannot be read by another. Encrypted tokens move cleanly
 > between Linux and Windows.
 
+## Checking the connection
+
+`OktaConnection` validates the `oktaURL` + `token` pair and lists every
+user the token can see — useful as a smoke test before running a full
+load. Reads `csvSync.properties` from the current working directory.
+
+```sh
+java -cp target/DayforceOktaLoader.jar \
+  com.pointbluetech.okta.csv.OktaConnection
+```
+
+Prints `Connection OK. Okta org id: <id>` on success, followed by one
+row per user (`id`, `status`, `login`). Throws on a bad URL, rejected
+token, or unreachable tenant. Also writes to
+`<logPath>okta-connection-check.log`.
+
 ## `csvSync.properties`
 
 | Key | Required | Default | Description |
