@@ -100,8 +100,8 @@ java -cp target/DayforceOktaLoader.jar \
   com.pointbluetech.okta.csv.OktaConnection
 ```
 
-Prints `Connection OK. Okta org id: <id>` on success, followed by one
-row per user (`id`, `status`, `login`). Throws on a bad URL, rejected
+Prints `Connection OK. Okta org id: <id>` on success, followed by the
+full pretty-printed JSON for each user. Throws on a bad URL, rejected
 token, or unreachable tenant. Also writes to
 `<logPath>okta-connection-check.log`.
 

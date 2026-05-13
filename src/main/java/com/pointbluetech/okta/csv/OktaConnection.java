@@ -90,9 +90,8 @@ public class OktaConnection {
         List<JSONObject> users = conn.listUsers();
         System.out.println("User count: " + users.size());
         for (JSONObject u : users) {
-            JSONObject profile = u.optJSONObject("profile");
-            String login = profile == null ? "" : profile.optString("login");
-            System.out.println(u.optString("id") + "\t" + u.optString("status") + "\t" + login);
+            System.out.println(u.toString(2));
+            System.out.println();
         }
     }
 }
