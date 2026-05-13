@@ -26,6 +26,16 @@ directory**:
 - `csvSync.properties` — runtime configuration
 - `attributeMap.properties` — CSV-column → Okta-attribute mapping
 
+`csvSync.properties` is gitignored because it holds an encrypted token
+and local paths. On a fresh clone, copy the template and edit it:
+
+```sh
+cp csvSync.properties.template csvSync.properties
+$EDITOR csvSync.properties
+```
+
+Then run:
+
 ```sh
 java -jar target/DayforceOktaLoader.jar
 ```

@@ -1,0 +1,45 @@
+# DayforceOktaLoader configuration template.
+# Copy this file to csvSync.properties and fill in the values below.
+# See README.md for the full reference.
+
+# ---- Required ----
+
+# Tenant base URL, no trailing slash.
+oktaURL = https://example.okta.com
+
+# Encrypted SSWS API token. Generate with:
+#   java -cp target/DayforceOktaLoader.jar \
+#     com.pointbluetech.okta.csv.CredentialUtility 'paste-plain-token-here'
+# Paste the resulting Base64 string here.
+token = REPLACE_WITH_ENCRYPTED_TOKEN
+
+# Absolute path to the input CSV.
+inputFilePath = /absolute/path/to/input.csv
+
+# Directory where log files are written. Must exist; trailing slash required.
+logPath = /absolute/path/to/logs/
+
+# Worker thread count. Worker i (1..N) processes rows where lineNumber % N == i.
+threads = 1
+
+# Appended to the matchKey value to form the Okta login, e.g. "@example.edu".
+# Leave blank if matchKey itself is already the login.
+loginSuffix = @example.edu
+
+# ---- Optional ----
+
+# CSV column and Okta profile attribute used to join CSV rows to existing
+# Okta users. Must exist on both sides. Defaults to universalID.
+# Do NOT also list this key in attributeMap.properties.
+matchKey = universalID
+
+# Per-field date format conversion. Patterns are java.text.SimpleDateFormat.
+# Add a pair for each CSV column whose value should be reformatted before
+# being sent to Okta. Empty values pass through unchanged; unparseable values
+# are logged and passed through.
+# dateField.graduationDate.fromFormat = yyyy-MM-dd
+# dateField.graduationDate.toFormat   = MM-dd-yyyy
+
+# Outbound HTTP proxy. proxyPort is required if proxyHost is set.
+# proxyHost = proxy.example.com
+# proxyPort = 8080

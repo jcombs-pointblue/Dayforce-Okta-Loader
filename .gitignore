@@ -1,3 +1,7 @@
 /build/
 /dist/
 /target/
+
+# Runtime config — contains the encrypted Okta token and local paths.
+# Copy csvSync.properties.template to csvSync.properties and edit locally.
+csvSync.properties
